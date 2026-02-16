@@ -18,7 +18,23 @@ const router = createRouter({
             path: '/signup',
             name: 'signup',
             component: () => import('../views/Signup.vue'),
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: ()=> import('../views/LoginView.vue'),
+        },
+        {
+            path: '/accounts',
+            name: 'accounts',
+            component: ()=> import('../views/AccountView.vue'),
+        },
+        {
+            path: '/accounts/create',
+            name: 'accounts/create',
+            component: ()=> import('../views/AccountView.vue'),
         }
+
     ]
 }); // ; JS에서도 꼭쓰자 약속
 
