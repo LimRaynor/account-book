@@ -19,12 +19,6 @@ spring:
         format_sql: true
     show-sql: true
 
-  # Spring Security - 개발 중 임시 허용
-  security:
-    user:
-      name: admin
-      password: admin
-
 # MyBatis 설정
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
