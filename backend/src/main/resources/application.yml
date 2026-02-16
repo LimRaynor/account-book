@@ -12,7 +12,7 @@ spring:
   # JPA 설정
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none # 처음에create나 update였을 때 JPA가 테이블을 자동 생성 / none면 자동X
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect

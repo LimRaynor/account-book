@@ -66,3 +66,25 @@ PRIMARY KEY (user_id)
 ├───────────────┼─────────────────┤
 │ root 비밀번호 │ mariadb         │
 └───────────────┴─────────────────┘
+
+
+---
+
+브라우저는 GET 요청만 가능해서, 조회 API를 테스트할 수 있어.
+
+먼저 데이터가 DB에 있어야 결과가 나옴
+
+먼저 DB에 테스트 데이터 넣기
+
+MariaDB 접속해서 아래 SQL 실행:
+-- 테스트 유저 추가
+INSERT INTO users (name, email, password, role)
+VALUES ('테스트', 'test@test.com', '1234', 'USER');
+
+-- 테스트 계좌 추가 (user_id는 위에서 생성된 ID)
+INSERT INTO accounts (user_id, name, balance)
+VALUES (1, '생활비 통장', 100000);
+
+-- 테스트 거래 추가
+INSERT INTO transactions (account_id, type, category, amount, description, date)
+VALUES (1, 'EXPENSE', '식비', 15000, '점심', '2026-02-17');

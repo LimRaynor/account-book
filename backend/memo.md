@@ -13,3 +13,6 @@ Transaction.java
 도메인 - 회사안의 영업부, 마케팅부같이 업무영역
 
 어그리게이트 - 관련있는거 끼리 묶은거
+
+
+AUTO_INCREMENT - 자
