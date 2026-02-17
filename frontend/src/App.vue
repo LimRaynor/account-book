@@ -13,6 +13,8 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/signup">회원가입</RouterLink>
         <RouterLink to="/login">로그인</RouterLink>
+        <RouterLink to="/accounts">계좌</RouterLink>
+        <RouterLink to="/transactions">거래내역</RouterLink>
       </nav>
     </div>
   </header>

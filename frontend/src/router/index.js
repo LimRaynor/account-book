@@ -33,6 +33,11 @@ const router = createRouter({
             path: '/accounts/create',
             name: 'accounts/create',
             component: ()=> import('../views/AccountView.vue'),
+        },
+        {
+            path: '/transactions',
+            name: 'transactions',
+            component: ()=> import('../views/TransactionView.vue'),
         }
 
     ]
