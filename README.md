@@ -4,13 +4,13 @@
 
 ## 기술 스택
 
-| 구분 | 기술 |
-|------|------|
+| 구분 | 기술                                             |
+|------|------------------------------------------------|
 | **Backend** | Spring Boot 3.5.10 + MyBatis + Spring Security |
-| **Frontend** | Vue 3 + Vite + Pinia + Axios |
-| **Database** | MariaDB 10.11 (account_book_db) |
-| **언어** | Java 17, JavaScript |
-| **빌드** | Gradle (백엔드), Vite (프론트엔드) |
+| **Frontend** | Vue 3 + Vite + Pinia + Axios                   |
+| **Database** | MariaDB 10.11 (account_book_db)                |
+| **언어** | Java 21, JavaScript                             |
+| **빌드** | Gradle (백엔드), Vite (프론트엔드)                     |
 
 ## 프로젝트 구조
 
