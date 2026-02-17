@@ -26,13 +26,13 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<String> createAccount(@RequestBody Account account) {
         accountService.createAccount(account);
-        return ResponseEntity.ok("怨꾩쥖 ?앹꽦 ?깃났");
+        return ResponseEntity.ok("계좌가 생성되었습니다.");
     }
 
     // DELETE /api/accounts/{id} 요청이 오면 -> 해당 계좌 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
-        return ResponseEntity.ok("怨꾩쥖 ??젣 ?깃났");
+        return ResponseEntity.ok("계좌가 삭제되었습니다.");
     }
 }

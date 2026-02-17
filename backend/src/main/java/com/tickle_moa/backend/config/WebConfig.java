@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
-	public void addCorsMappings(CorsRegistry registry) {
+	public void addCorsMappings(CorsRegistry registry) { // cors로 같은 도메인에서나온거끼리 연결허가
 		registry.addMapping("/api/**")           // /api/로 시작하는 모든 경로
 			.allowedOrigins("http://localhost:5173")  // Vue 개발서버 허용
 			.allowedMethods("*")  // 모든 HTTP 메서드 허용
