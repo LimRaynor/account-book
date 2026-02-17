@@ -8,6 +8,7 @@ const email = ref('')
 const password = ref('')
 
 // 페이지 이동할때 쓰는 상수
+import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 
 async function handleLogin() {
@@ -25,7 +26,9 @@ async function handleLogin() {
 
     // 메인페이지로 이동 (router.push 가 이동시킨다 url 로)
     router.push('/')
+    const authStore = useAuthStore()
   } catch (e) {
+    authStore.setUser(res.data)   // store에 유저 정보 저장
     alert('로그인 실패')
   }
 }
