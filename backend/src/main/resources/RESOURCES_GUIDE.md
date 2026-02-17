@@ -1,15 +1,34 @@
-﻿# Resources Guide
+﻿# RESOURCES GUIDE (JWT 적용 전)
 
-## 역할
-- 애플리케이션 환경설정 및 SQL 매퍼 저장
+## 이 패키지의 역할
+- 환경설정(yml)과 SQL(XML) 보관
 
-## 주요 파일
-- `application.yml`: DB 연결, MyBatis 경로, 서버 포트
-- `mappers/UserMapper.xml`
-- `mappers/AccountMapper.xml`
-- `mappers/TransactionMapper.xml`
+## 파일별 해석
 
-## 핵심 설정
-- datasource: `jdbc:mariadb://localhost:3306/account_book_db`
-- mybatis mapper-locations: `classpath:mappers/**/*.xml`
-- server port: `8080`
+### `application.yml`
+- datasource
+  - url: `jdbc:mariadb://localhost:3306/account_book_db`
+  - username/password: `account` / `book`
+- mybatis
+  - mapper-locations: `classpath:mappers/**/*.xml`
+  - map-underscore-to-camel-case: true
+- server
+  - port: `8080`
+
+### `mappers/UserMapper.xml`
+- `findByEmail`
+- `insertUser`
+
+### `mappers/AccountMapper.xml`
+- `findByUserId`
+- `insertAccount`
+- `deleteById`
+
+### `mappers/TransactionMapper.xml`
+- `findByAccountId`
+- `insertTransaction`
+- `deleteById`
+
+## 주의할 점
+- `application.yml`의 `type-aliases-package` 값이 과거 패키지명(`com.ohgiraffers.backend`)으로 남아 있음
+- 현재 Java 패키지는 `com.tickle_moa.backend`이므로 정합성 점검 필요

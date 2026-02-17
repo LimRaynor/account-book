@@ -1,14 +1,33 @@
-﻿# Store Package Guide
+﻿# STORE GUIDE (JWT 적용 전)
 
-## 역할
-- Pinia 기반 상태 관리
+## 이 패키지의 역할
+- Pinia 상태 관리
 
-## 주요 파일
-- `auth.js`: 로그인 사용자 상태
-- `account.js`: 계좌 목록/추가/삭제 + API 호출
-- `transaction.js`: 거래 목록/추가/삭제 + API 호출
+## 파일별 해석
+
+### `auth.js`
+- 상태: `user`
+- 액션
+  - `setUser(userData)`: 로그인 성공 시 사용자 저장
+  - `clearUser()`: 로그아웃 시 사용자 초기화
+
+### `account.js`
+- 상태: `accounts`
+- 액션
+  - `fetchAccounts(userId)`
+  - `addAccount(account)`
+  - `deleteAccount(id)`
+
+### `transaction.js`
+- 상태: `transactions`
+- 액션
+  - `fetchTransactions(accountId)`
+  - `addTransaction(transaction)`
+  - `deleteTransaction(id)`
 
 ## 흐름
-```text
-View 이벤트 -> Store action -> API 호출 -> Store state 갱신 -> UI 반영
-```
+1. View 이벤트 발생
+2. Store action 실행
+3. API 호출
+4. Store state 갱신
+5. UI 자동 반영

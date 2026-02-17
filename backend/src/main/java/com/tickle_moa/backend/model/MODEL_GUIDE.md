@@ -1,13 +1,22 @@
-﻿# Model Package Guide
+﻿# MODEL GUIDE (JWT 적용 전)
 
-## 역할
-- DB 테이블과 매핑되는 도메인 모델(VO) 정의
+## 이 패키지의 역할
+- DB 테이블과 매핑되는 도메인 모델(VO)
 
-## 주요 파일
-- `User.java` -> `users`
-- `Account.java` -> `accounts`
-- `Transaction.java` -> `transactions`
+## 파일별 해석
 
-## 주의
-- 현재 코드에서는 API 입출력에도 model이 일부 직접 사용됩니다.
-- 외부 노출을 줄이려면 DTO를 거쳐 전달하는 방식이 더 안전합니다.
+### `User.java`
+- 필드: `userId`, `name`, `email`, `password`, `createdAt`, `role`
+- 매핑 테이블: `users`
+
+### `Account.java`
+- 필드: `accountId`, `userId`, `name`, `balance`, `createdAt`
+- 매핑 테이블: `accounts`
+
+### `Transaction.java`
+- 필드: `tranId`, `accountId`, `type`, `category`, `amount`, `description`, `date`, `createdAt`
+- 매핑 테이블: `transactions`
+
+## 현재 구조 포인트
+- Controller 요청/응답에 model을 직접 쓰는 구간이 있음
+- JWT/보안 고도화 시 DTO 중심으로 분리하면 안전성과 유지보수가 좋아짐

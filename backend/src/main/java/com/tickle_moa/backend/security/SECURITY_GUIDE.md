@@ -1,18 +1,22 @@
-﻿# Security Package Guide
+﻿# SECURITY GUIDE (JWT 적용 전)
 
-## 역할
-- JWT 관련 인증 컴포넌트 위치
+## 이 패키지의 역할
+- JWT 인증/인가 관련 클래스 위치
 
-## 현재 파일
-- `CustomUserDetailsService.java`
-- `JwtAuthenticationFilter.java`
-- `JwtTokenProvider.java`
+## 파일별 해석
 
-## 현재 상태
-- 보안 클래스 골격은 존재하지만, 실제 인증 흐름은 아직 최소 수준입니다.
-- `SecurityConfig`가 대부분 요청을 허용하고 있어 완전한 JWT 강제 상태는 아닙니다.
+### `CustomUserDetailsService.java`
+- 현재: 빈 클래스
+- 예정 역할: 사용자 조회 후 Spring Security 인증 객체 생성
 
-## 권장 흐름(목표)
-```text
-Login 성공 -> JWT 발급 -> 요청마다 JWT 검증 필터 통과 -> Controller 진입
-```
+### `JwtAuthenticationFilter.java`
+- 현재: 빈 클래스
+- 예정 역할: 요청 헤더의 JWT를 파싱/검증하고 SecurityContext 설정
+
+### `JwtTokenProvider.java`
+- 현재: 빈 클래스
+- 예정 역할: 토큰 발급/검증/클레임 추출
+
+## 현재 상태 요약
+- Security 패키지는 뼈대만 있고 실제 JWT 로직 미구현
+- 따라서 현재 인증은 "JWT 기반 보호" 단계가 아님

@@ -1,12 +1,11 @@
-﻿# Router Package Guide
+﻿# ROUTER GUIDE (JWT 적용 전)
 
-## 역할
-- 페이지 라우팅 설정
+## 이 패키지의 역할
+- URL과 View 매핑
 
-## 주요 파일
-- `index.js`
+## 파일별 해석
 
-## 현재 라우트
+### `index.js`
 - `/` -> `Main.vue`
 - `/about` -> `AboutView.vue`
 - `/signup` -> `Signup.vue`
@@ -15,7 +14,6 @@
 - `/accounts/create` -> `AccountView.vue`
 - `/transactions` -> `TransactionView.vue`
 
-## 흐름
-```text
-사용자 URL 접근 -> Router 매칭 -> 해당 View 렌더링
-```
+## 현재 포인트
+- 라우트 가드는 아직 없음
+- JWT 적용 전이라 로그인 여부 기반 페이지 차단 로직이 없음
