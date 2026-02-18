@@ -1,4 +1,4 @@
-# Tickle-Moa Account Book
+9# Tickle-Moa Account Book
 
 개인 가계부 웹 프로젝트입니다. 백엔드는 Spring Boot + MyBatis, 프론트엔드는 Vue 3 + Pinia + Axios로 구성되어 있습니다.
 
@@ -159,20 +159,6 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 
 **배경**: 기존 로그인은 이메일 조회만 하고 비밀번호 검증 없이 User 객체를 그대로 반환했으며, 모든 API 엔드포인트가 인증 없이 열려 있었음.
 
-**백엔드 변경**
-
-| 파일 | 내용 |
-|---|---|
-| `application.yml` | `jwt.secret`, `jwt.expiration` 설정값 추가 |
-| `dto/LoginRequest` | 로그인 요청 DTO (email, password) |
-| `dto/SignupRequest` | 회원가입 요청 DTO (name, email, password) |
-| `dto/TokenResponse` | 로그인 응답 DTO (token, userId, name, email, role) |
-| `security/JwtTokenProvider` | JWT 생성 / 검증 / 파싱 컴포넌트 |
-| `security/CustomUserDetailsService` | 이메일 기반 UserDetails 조회 |
-| `security/JwtAuthenticationFilter` | Authorization 헤더에서 토큰 추출 후 SecurityContext 등록 |
-| `config/SecurityConfig` | JWT 필터 등록, `/api/auth/**` 공개, 나머지 인증 필요, Stateless 세션 |
-| `service/AuthService` | `login()` 추가 — BCrypt 비밀번호 검증 포함 |
-| `controller/AuthController` | 로그인 응답을 `TokenResponse`로 변경 (JWT 토큰 포함) |
 
 
 ## test 
@@ -201,6 +187,11 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 
 <img width="1306" height="987" alt="5 DB등록확인test" src="https://github.com/user-attachments/assets/286100ea-3fc2-4582-bd07-b178569e6a5b" />
 
+# 발견중인 버그
+- 로그인 하기전 페이지이동시 계좌, 거래내역 두 페이지를 가게되면 다른페이지로 이동하지못하는 버그 발견
+
+- 계좌등록후 지출, 입금 내역 확인시 지출, 입금 둘다 INCOME으로 출력되는 버그 발견 (바로수정하겠음)
+
 **프론트엔드 변경**
 
 | 파일 | 내용 |
@@ -208,6 +199,22 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 | `api/axios.js` | 요청 인터셉터 활성화 — `localStorage`에서 토큰 읽어 `Authorization: Bearer` 헤더 자동 첨부 |
 | `stores/auth.js` | `login()` / `logout()` 추가 — `localStorage` 토큰 저장/삭제 연동 |
 | `views/LoginView.vue` | 로그인 성공 시 `authStore.login(res.data)` 호출로 토큰 및 유저 정보 저장 |
+
+**백엔드 변경**
+
+| 파일 | 내용 |
+|---|---|
+| `application.yml` | `jwt.secret`, `jwt.expiration` 설정값 추가 |
+| `dto/LoginRequest` | 로그인 요청 DTO (email, password) |
+| `dto/SignupRequest` | 회원가입 요청 DTO (name, email, password) |
+| `dto/TokenResponse` | 로그인 응답 DTO (token, userId, name, email, role) |
+| `security/JwtTokenProvider` | JWT 생성 / 검증 / 파싱 컴포넌트 |
+| `security/CustomUserDetailsService` | 이메일 기반 UserDetails 조회 |
+| `security/JwtAuthenticationFilter` | Authorization 헤더에서 토큰 추출 후 SecurityContext 등록 |
+| `config/SecurityConfig` | JWT 필터 등록, `/api/auth/**` 공개, 나머지 인증 필요, Stateless 세션 |
+| `service/AuthService` | `login()` 추가 — BCrypt 비밀번호 검증 포함 |
+| `controller/AuthController` | 로그인 응답을 `TokenResponse`로 변경 (JWT 토큰 포함) |
+
 
 **인증 흐름**
 
