@@ -9,7 +9,6 @@ const password = ref('')
 
 // 2. 가입 함수
 
-
 async function handleSignup() {
   // 비동기 함수로 응답올때까지 기다림
   try {
@@ -29,29 +28,43 @@ async function handleSignup() {
 </script>
 
 <template>
-<h1> 회원 가입 페이지~ </h1>
-  <form @submit.prevent="handleSignup">
-<!--형식은 @리스너가 새로고침 액션감지하면 새로고침을 방어하고 handleSignup을 실행-->
-    <div>
-      <label>이름</label>
-      <input v-model="name" type="text" required />
-<!--    입력하면  name변수에 동기화 -->
+  <div class="auth-wrapper">
+    <div class="card auth-card">
+      <h1>회원가입</h1>
+      <form @submit.prevent="handleSignup">
+        <div class="form-group">
+          <label>이름</label>
+          <input v-model="name" type="text" required />
+        </div>
+        <div class="form-group">
+          <label>이메일</label>
+          <input v-model="email" type="email" required />
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input v-model="password" type="password" required />
+        </div>
+        <button type="submit">가입하기</button>
+      </form>
     </div>
-    <div>
-      <label>이메일</label>
-      <input v-model="email" type="email" required />
-      <!--    입력하면  email 변수에 동기화 -->
-    </div>
-    <div>
-      <label>비밀번호</label>
-      <input v-model="password" type="password" required />
-      <!--    입력하면  password 변수에 동기화 -->
-    </div>
-    <button type="submit">가입</button>
-<!--   폼 안에 데이터들을 모아서 백엔드에 제출하는 버튼 -->
-  </form>
+  </div>
 </template>
 
 <style scoped>
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
 
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+}
 </style>

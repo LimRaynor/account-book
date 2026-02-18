@@ -26,23 +26,39 @@ async function handleLogin() {
 </script>
 
 <template>
-  <h1>로그인</h1>
-  <form @submit.prevent="handleLogin">
-    <!-- email, password 입력 + 버튼 -->
-    <div>
-    <label>이메일</label>
-    <input v-model="email" type="email" required />
-    <!--    입력하면  email 변수에 동기화 -->
+  <div class="auth-wrapper">
+    <div class="card auth-card">
+      <h1>로그인</h1>
+      <form @submit.prevent="handleLogin">
+        <div class="form-group">
+          <label>이메일</label>
+          <input v-model="email" type="email" required />
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input v-model="password" type="password" required />
+        </div>
+        <button type="submit">로그인하기</button>
+      </form>
     </div>
-    <div>
-      <label>비밀번호</label>
-      <input v-model="password" type="password" required />
-      <!--    입력하면  password 변수에 동기화 -->
-    </div>
-    <button type="submit">로그인하기</button>
-  </form>
+  </div>
 </template>
 
 <style scoped>
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
 
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+}
 </style>

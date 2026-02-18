@@ -1,35 +1,103 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 0;
 }
 
-a,
-.green {
+/* 링크 */
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: var(--color-primary);
+  transition: 0.3s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+a:hover {
+  color: var(--color-primary-hover);
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+/* 공통 버튼 */
+button,
+.btn {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+button:hover,
+.btn:hover {
+  background: var(--color-primary-hover);
+}
+
+/* 공통 입력 */
+input,
+select {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--color-primary);
+}
+
+/* 공통 카드 */
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 32px;
+}
+
+/* 공통 제목 */
+h1 {
+  color: var(--color-dark);
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--color-primary);
+  display: inline-block;
+}
+
+/* 공통 폼 그룹 */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-dark);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+}
+
+/* 삭제 버튼 */
+.btn-delete {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.btn-delete:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
 }

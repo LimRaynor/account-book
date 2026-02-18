@@ -30,7 +30,7 @@ public class AccountController {
     }
 
     // DELETE /api/accounts/{id} 요청이 오면 -> 해당 계좌 삭제
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // {id}==id에 어떤값이 올지 모르는 그값을 변수로설정해 어떤값이라도 진행
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.ok("계좌가 삭제되었습니다.");
