@@ -1,37 +1,54 @@
 package com.tickle_moa.backend.user.command.service;
 
-import com.tickle_moa.backend.exception.BusinessException;
-import com.tickle_moa.backend.exception.ErrorCode;
 import com.tickle_moa.backend.user.command.dto.UserCreateRequest;
 import com.tickle_moa.backend.user.command.entity.User;
-import com.tickle_moa.backend.user.command.entity.UserRole;
 import com.tickle_moa.backend.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserCommandService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public Long signup(UserCreateRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
-        }
+    /* USER 등록 */
+    @Transactional
+    public void registUser(UserCreateRequest userCreateRequest) {
 
-        User user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserRole.USER)
-                .build();
+        /* request(DTO) -> Entity */
+        User user = modelMapper.map(userCreateRequest, User.class);
 
-        User savedUser = userRepository.save(user);
-        return savedUser.getUserId();
+        /* 비밀번호를 암호화 하여 Entity에 세팅 */
+        user.setEncodedPassword(
+                passwordEncoder.encode(userCreateRequest.getPassword())
+        );
+
+        /* 저장 */
+        userRepository.save(user);
+    }
+
+    /* ADMIN 등록 */
+    @Transactional
+    public void registAdmin(UserCreateRequest userCreateRequest) {
+
+        /* request(DTO) -> Entity */
+        User user = modelMapper.map(userCreateRequest, User.class);
+
+        /* 비밀번호를 암호화 하여 Entity에 세팅 */
+        user.setEncodedPassword(
+                passwordEncoder.encode(userCreateRequest.getPassword())
+        );
+
+        /* 권한 변경 */
+        user.modifyRole("ADMIN");
+
+        /* 저장 */
+        userRepository.save(user);
     }
 }

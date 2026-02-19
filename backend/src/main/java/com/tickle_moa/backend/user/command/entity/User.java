@@ -32,14 +32,24 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 
     @Builder
     public User(String name, String email, String password, UserRole role) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = (role != null) ? role : UserRole.USER;
         this.createdAt = LocalDateTime.now();
+    }
+
+    /* 암호화된 비밀번호를 설정하는 메서드 */
+    public void setEncodedPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    /* 권한 변경 메서드 */
+    public void modifyRole(String role) {
+        this.role = UserRole.valueOf(role);
     }
 }

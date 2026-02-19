@@ -1,40 +1,31 @@
 package com.tickle_moa.backend.auth.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "refresh_tokens")
+@Table(name = "refresh_token")
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class RefreshToken {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false)
+    private String email;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "token", nullable = false, length = 500)
+    @Column(nullable = false)
     private String token;
 
-    @Column(name = "expiry_date", nullable = false)
-    private LocalDateTime expiryDate;
-
-    @Builder
-    public RefreshToken(Long userId, String token, LocalDateTime expiryDate) {
-        this.userId = userId;
-        this.token = token;
-        this.expiryDate = expiryDate;
-    }
-
-    public void updateToken(String token, LocalDateTime expiryDate) {
-        this.token = token;
-        this.expiryDate = expiryDate;
-    }
+    @Column(nullable = false)
+    private Date expiryDate;
 }

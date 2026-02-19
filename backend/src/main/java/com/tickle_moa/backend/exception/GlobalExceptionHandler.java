@@ -13,14 +13,14 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = e.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(ApiResponse.fail(errorCode.getCode(), e.getMessage()));
+                .body(ApiResponse.failure(errorCode.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         return ResponseEntity
                 .status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus())
-                .body(ApiResponse.fail(
+                .body(ApiResponse.failure(
                         ErrorCode.INTERNAL_SERVER_ERROR.getCode(),
                         ErrorCode.INTERNAL_SERVER_ERROR.getMessage()
                 ));

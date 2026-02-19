@@ -12,7 +12,7 @@ const password = ref('')
 async function handleSignup() {
   // 비동기 함수로 응답올때까지 기다림
   try {
-    await api.post('/api/auth/signup', {
+    await api.post('/api/v1/users', {
       // 백엔드로 요청하면 응답올때까지 기다림
       name: name.value,
       email: email.value,

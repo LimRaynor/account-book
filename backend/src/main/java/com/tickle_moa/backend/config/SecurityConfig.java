@@ -1,42 +1,115 @@
 package com.tickle_moa.backend.config;
 
 import com.tickle_moa.backend.jwt.JwtAuthenticationFilter;
+import com.tickle_moa.backend.jwt.JwtTokenProvider;
+import com.tickle_moa.backend.jwt.RestAccessDeniedHandler;
+import com.tickle_moa.backend.jwt.RestAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity // @PreAuthorize, @PostAuthorize
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsService userDetailsService;
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /* Spring Security 결정 설정 객체 */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(cors -> {})
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/users/signup").permitAll()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // CSRF 처리 비활성화 (기본값: 활성화)
+        // JWT로 세션 사용 X(Stateless) -> CSRF 보호가 필수적이지 않음
+        http.csrf(AbstractHttpConfigurer::disable)
+
+                // 세션 로그인 X → 토큰 로그인 설정 O
+                // 세션을 생성하지 않고, SecurityContextHolder에서 세션 정보 X
+                // → 모든 요청은 독립적, 인증 정보는 클라이언트 요청 시 전달하는 토큰에만 의존
+                .sessionManagement(session
+                        -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                /* 인증, 인가 실패 핸들러 추가 */
+                .exceptionHandling(exception ->
+                        exception
+                                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                                .accessDeniedHandler(restAccessDeniedHandler)
+                )
+
+                // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
+                .authorizeHttpRequests(auth
+                        -> auth
+                        // 회원 가입, 로그인은 인증 불필요(인증 없어도 사용)
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1/users",
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/refresh",
+                                "/api/v1/admin").permitAll()
+
+                        // 나머지 요청은 인증이 필요함
+                        .anyRequest().authenticated()
+                )
+
+                // UsernamePasswordAuthenticationFilter 앞에
+                // JWT 인증 커스텀 필터를 추가
+                .addFilterBefore(
+                        jwtAuthenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
+        /* CORS 설정 */
+        http.cors(cors -> cors
+                .configurationSource(corsConfigurationSource()));
+
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        return new CorsFilter(corsConfigurationSource());
+    }
+
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
+        config.addAllowedHeader("*"); // 모든 헤더 허용
+        config.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+
+        // HttpOnly Cookie 사용
+        config.setAllowCredentials(true); // 자격 증명(쿠키 등) 사용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // 모든 경로에 위 설정 적용
+        return source;
     }
 }

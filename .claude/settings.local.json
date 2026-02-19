@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd.exe /c \"dir \"\"C:\\\\SWCAMP\\\\classMaterials\\\\09_restapi\\\\09_restapi_repo\\\\00_BaekDongHyeon\\\\chap03-spring-security-lecture-source\"\" 2>&1\")",
+      "Bash(cmd.exe /c \"dir C:\\\\SWCAMP\\\\classMaterials\\\\09_restapi\\\\09_restapi_repo\\\\00_BaekDongHyeon\\\\chap03-spring-security-lecture-source\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\SWCAMP\\\\classMaterials\\\\09_restapi\\\\09_restapi_repo\\\\00_BaekDongHyeon\\\\chap03-spring-security-lecture-source'' -ErrorAction SilentlyContinue | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\SWCAMP\\\\classMaterials\\\\09_restapi\\\\09_restapi_repo\\\\00_BaekDongHyeon\\\\chap03-spring-security-lecture-source\\\\src'' -Recurse | Where-Object {!$_PSIsContainer} | Select-Object FullName\")",
+      "Bash(powershell -Command:*)"
+    ]
+  }
+}

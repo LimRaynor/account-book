@@ -25,6 +25,6 @@ public class TransactionCommandController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTransaction(@PathVariable Long id) {
         transactionCommandService.deleteTransaction(id);
-        return ResponseEntity.ok(ApiResponse.success(null, "거래내역이 삭제되었습니다."));
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

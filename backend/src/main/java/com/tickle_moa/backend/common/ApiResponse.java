@@ -1,6 +1,5 @@
 package com.tickle_moa.backend.common;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,14 +7,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
-    private final boolean success;
-    private final T data;
-    private final String errorCode;
-    private final String message;
-    private final LocalDateTime timestamp;
+    private boolean success;
+    private T data;
+    private String errorCode;
+    private String message;
+    private LocalDateTime timestamp;
 
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
@@ -25,16 +23,7 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static <T> ApiResponse<T> success(T data, String message) {
-        return ApiResponse.<T>builder()
-                .success(true)
-                .data(data)
-                .message(message)
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
-
-    public static <T> ApiResponse<T> fail(String errorCode, String message) {
+    public static <T> ApiResponse<T> failure(String errorCode, String message) {
         return ApiResponse.<T>builder()
                 .success(false)
                 .errorCode(errorCode)

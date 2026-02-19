@@ -25,6 +25,6 @@ public class AccountCommandController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteAccount(@PathVariable Long id) {
         accountCommandService.deleteAccount(id);
-        return ResponseEntity.ok(ApiResponse.success(null, "계좌가 삭제되었습니다."));
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

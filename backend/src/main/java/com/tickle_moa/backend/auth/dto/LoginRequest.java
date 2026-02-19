@@ -1,12 +1,12 @@
 package com.tickle_moa.backend.auth.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class LoginRequest {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 }

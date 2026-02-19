@@ -11,12 +11,12 @@ const authStore = useAuthStore()
 
 async function handleLogin() {
   try {
-    const res = await api.post('/api/auth/login', {
+    const res = await api.post('/api/v1/auth/login', {
       email: email.value,
       password: password.value
     })
-    authStore.login(res.data)
-    alert(res.data.name + '님 환영합니다!')
+    authStore.login(res.data.data)
+    alert('로그인 성공!')
     router.push('/')
   } catch (e) {
     alert('로그인 실패')

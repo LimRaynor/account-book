@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25be7f85-e7b3-45ea-b300-c91ec0782b1f" name="변경" comment="">
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/account/command/dto/request/AccountCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/account/command/dto/request/AccountCreateRequest.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/dto/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/dto/TokenResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/dto/TokenResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/tickle_moa/backend/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,9 +175,14 @@
       <workItem from="1771311782476" duration="5742000" />
       <workItem from="1771331927267" duration="19815000" />
       <workItem from="1771389168779" duration="2940000" />
+<<<<<<< Updated upstream
       <workItem from="1771420630944" duration="2863000" />
       <workItem from="1770973600922" duration="20968000" />
       <workItem from="1771485091737" duration="12277000" />
+=======
+      <workItem from="1771420630944" duration="5274000" />
+      <workItem from="1771510162415" duration="1891000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
