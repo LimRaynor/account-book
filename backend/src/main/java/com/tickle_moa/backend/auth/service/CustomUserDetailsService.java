@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -17,15 +17,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+
+    /* UserDetails : Spring Security가 관리하는 사용자 정보 객체
+     * */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
 
+        // 1) DB에서 email이 일치하는 회원 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다"));
+
+        // 2) UserDetails 인터페이스를 구현한 객체를 만들어서 반환
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }
 }

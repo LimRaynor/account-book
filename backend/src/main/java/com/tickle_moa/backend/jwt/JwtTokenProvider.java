@@ -1,83 +1,95 @@
 package com.tickle_moa.backend.jwt;
 
-import com.tickle_moa.backend.user.command.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
 
-@Component
+@Component // bean 등록
 public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
-    private String secret;
+    private String jwtSecret;
 
     @Value("${jwt.expiration}")
-    private long expiration;
+    private long jwtExpiration;
 
     @Value("${jwt.refresh-expiration}")
-    private long refreshExpiration;
+    private long jwtRefreshExpiration;
 
     private SecretKey secretKey;
 
     @PostConstruct
-    protected void init() {
-        String encodedSecret = Base64.getEncoder().encodeToString(secret.getBytes());
-        this.secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(encodedSecret));
+    public void init() {
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(User user) {
+    /* access token 생성 메서드 */
+    public String createToken(String email, String role) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpiration);
+
+        // JWT 토큰 생성 -> Header, Payload(Claims), Signature
         return Jwts.builder()
-                .subject(String.valueOf(user.getUserId()))
-                .claim("email", user.getEmail())
-                .claim("name", user.getName())
-                .claim("role", user.getRole().name())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(secretKey)
+                .subject(email)             // payload: subject (사용자 식별) (등록 claim)
+                .claim("role", role)        // payload: role (권한 정보) (비공개 claim)
+                .issuedAt(now)              // payload: IssuedAt (발행 시간)
+                .expiration(expiryDate)     // payload: Expiration Time(만료 시간)
+                .signWith(secretKey)        // signature: 비밀키 서명(위변조 방지)
                 .compact();
     }
 
-    public String createRefreshToken(User user) {
+    /* refresh token 생성 메서드 */
+    public String createRefreshToken(String email, String role) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtRefreshExpiration);
+
+        // JWT 토큰 생성 -> Header, Payload(Claims), Signature
         return Jwts.builder()
-                .subject(String.valueOf(user.getUserId()))
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + refreshExpiration))
-                .signWith(secretKey)
+                .subject(email)             // payload: subject (사용자 식별) (등록 claim)
+                .claim("role", role)        // payload: role (권한 정보) (비공개 claim)
+                .issuedAt(now)              // payload: IssuedAt (발행 시간)
+                .expiration(expiryDate)     // payload: Expiration Time(만료 시간)
+                .signWith(secretKey)        // signature: 비밀키 서명(위변조 방지)
                 .compact();
     }
 
+    // refresh token 만료 시간 반환
+    public long getRefreshExpiration() {
+        return jwtRefreshExpiration;
+    }
+
+    /* JWT 토큰 유효성 검사 메서드 */
     public boolean validateToken(String token) {
         try {
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
             return true;
-        } catch (Exception e) {
-            return false;
+        } catch (SecurityException | MalformedJwtException e) {
+            throw new BadCredentialsException("Invalid JWT Token", e);
+        } catch (ExpiredJwtException e) {
+            throw new BadCredentialsException("Expired JWT Token", e);
+        } catch (UnsupportedJwtException e) {
+            throw new BadCredentialsException("Unsupported JWT Token", e);
+        } catch (IllegalArgumentException e) {
+            throw new BadCredentialsException("JWT Token claims empty", e);
         }
     }
 
-    public Long getUserId(String token) {
-        Claims claims = getClaims(token);
-        return Long.parseLong(claims.getSubject());
-    }
-
-    public String getEmail(String token) {
-        Claims claims = getClaims(token);
-        return claims.get("email", String.class);
-    }
-
-    private Claims getClaims(String token) {
-        return Jwts.parser()
+    /* JWT 토큰 중 payload -> claim -> subject의 값 반환 */
+    public String getEmailFromJWT(String token) {
+        Claims claims = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+        return claims.getSubject();
     }
+
 }

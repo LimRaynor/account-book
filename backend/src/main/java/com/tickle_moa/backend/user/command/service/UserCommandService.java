@@ -7,7 +7,7 @@ import com.tickle_moa.backend.user.command.entity.User;
 import com.tickle_moa.backend.user.command.entity.UserRole;
 import com.tickle_moa.backend.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserCommandService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public Long signup(UserCreateRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {

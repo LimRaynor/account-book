@@ -28,9 +28,9 @@ mybatis:
 
 # JWT 설정
 jwt:
-  secret: account-book-jwt-secret-key-must-be-at-least-256-bits-long
-  expiration: 1800000
-  refresh-expiration: 604800000
+  secret: /TX6txOQJw4rDYj82onjCbwfZYEQpod3MA9L5mRMbhyG4laOFt1/asEEdUNFkv+EE47eQiB/LdTvLdsryc3RIQ==
+  expiration: 1800000       # 30 minutes (accessToken 만료 시간)
+  refresh-expiration: 604800000  # 1 week (refreshToken 만료 시간)
 
 # 서버 포트
 server:
