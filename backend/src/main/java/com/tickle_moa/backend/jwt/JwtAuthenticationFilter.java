@@ -45,6 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 6. SecurityContextHolder에 Authentication 객체 저장
             // 이를 통해 이후 필터나 컨트롤러에서 인증된 사용자 정보를 사용할 수 있음 (@AuthenticationPrincipal 등)
+            //
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
